@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Schedule</string>
+    <string name="previous_week">Go to previous week</string>
+    <string name="next_week">Go to next week</string>
+    <string name="settings">Settings</string>
+    <string name="no_data">There is no schedule for this week\nWill you rest or do your homework?</string>
+    <string name="getting_data">Getting the schedule…</string>
+</resources>

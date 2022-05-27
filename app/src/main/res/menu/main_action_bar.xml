@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/btnSettings"-->
+<!--        android:icon="@drawable/ic_baseline_settings_24"-->
+<!--        android:title="@string/settings"-->
+<!--        app:showAsAction="ifRoom" />-->
+    <item
+        android:id="@+id/btnPrevWeek"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
+        android:title="@string/previous_week"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/btnNextWeek"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_right_24"
+        android:title="@string/next_week"
+        app:showAsAction="ifRoom" />
+</menu>
