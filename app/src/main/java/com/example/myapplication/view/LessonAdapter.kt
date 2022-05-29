@@ -24,18 +24,18 @@ class LessonAdapter(private val lessons: List<Lesson>) : RecyclerView.Adapter<Le
     val lesson = lessons[position]
     holder.itemView.apply {
       var place = ""
-      place += getAddString(place, lesson.strTime)
-      place += getAddString(place, lesson.classroomName, 1)
+      place += getConcatString(place, lesson.strTime)
+      place += getConcatString(place, lesson.classroomName, 1)
       if (lesson.subgroup != 0) {
-        place += getAddString(place, "подгруппа ${lesson.subgroup}", 1)
+        place += getConcatString(place, "подгруппа ${lesson.subgroup}", 1)
       }
       holder.binding.place.text = place
 
       holder.binding.name.text = lesson.name
 
       var meta = ""
-      meta += getAddString(meta, lesson.type)
-      meta += getAddString(meta, lesson.teacherName, 2)
+      meta += getConcatString(meta, lesson.type)
+      meta += getConcatString(meta, lesson.teacherName, 2)
       holder.binding.meta.text = meta
 
 //      val classroomLink: String = "", // ссылка на аудиторию
@@ -47,7 +47,7 @@ class LessonAdapter(private val lessons: List<Lesson>) : RecyclerView.Adapter<Le
     }
   }
 
-  private fun getAddString(string: String, newText: String, separatorType: Int = 0): String {
+  private fun getConcatString(string: String, newText: String, separatorType: Int = 0): String {
     val separator = when (separatorType) {
       1 -> " | "
       2 -> ", "

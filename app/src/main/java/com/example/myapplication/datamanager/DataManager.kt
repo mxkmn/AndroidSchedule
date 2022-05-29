@@ -64,7 +64,6 @@ class DataManager(private val context: Context) {
     }
   }
 
-
   fun setSubgroup(subgroup: Int) {
     runBlocking {
         vars.setSubgroup(subgroup)

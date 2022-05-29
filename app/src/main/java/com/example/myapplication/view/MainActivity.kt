@@ -19,6 +19,7 @@ import com.example.myapplication.datamanager.DataManager
 import com.example.myapplication.datamanager.Lesson
 import com.example.myapplication.datamanager.StoredDatabase
 import com.example.myapplication.logic.AutoUpdater
+import com.example.myapplication.logic.CalendarWorker
 import com.example.myapplication.logic.Time
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,10 +27,13 @@ import org.jsoup.Jsoup
 import java.time.LocalDate
 import kotlin.concurrent.thread
 
+
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
   private lateinit var storage: DataManager
   private var selectedWeek = Time.getCurrentInternalWeek()
+  private lateinit var calendar: CalendarWorker
+  private var dbUpdated = false
 
   override fun onCreate(savedInstanceState: Bundle?) { // при запуске приложения
     super.onCreate(savedInstanceState) // вызываем стандартную инициализацию через родителя
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     return true
   }
 
+
   override fun onConfigurationChanged(newConfig: Configuration) { // при изменении конфигурации экрана (установка темы)
     super.onConfigurationChanged(newConfig)
 
@@ -67,18 +72,35 @@ class MainActivity : AppCompatActivity() {
 //    displayAll(nightModeFlags == Configuration.UI_MODE_NIGHT_YES)
   }
 
+  private fun updateCalendar() { // обновление календаря
+    dbUpdated = false
+    thread { calendar.addSchedule(storage.db!!.lessonDao().getAll()) }
+  }
   private fun initStorage() { // инициализация хранилища
     storage = DataManager(this)
+    calendar = CalendarWorker(contentResolver, this)
+
+    lifecycleScope.launch {
+      calendar.flowAccessibleNow.collect {
+        if (dbUpdated) {
+          updateCalendar()
+        }
+      }
+    }
 
     lifecycleScope.launch {
       storage.isDbInitialized.collect { success -> // connection listener
         if (success != null) {
           if (success) { // успешное подключение
+            Log.i("mxkmnInitStorage", "DB connected")
             displayAll()
-//            Toast.makeText(applicationContext, "Подключено к БД!", Toast.LENGTH_LONG).show()
-//            Log.i("mxkmnInitStorage", "DB connected")
 
-            storage.db!!.flowParseResult.collect { parseResult -> // connection listener
+            storage.db!!.flowParseResult.collect { parseResult ->
+              dbUpdated = true
+              if (calendar.isAccessible) {
+                updateCalendar()
+              }
+
               saveResult(parseResult)
               if (parseResult.week == selectedWeek) {
                 if (parseResult.resultType != StoredDatabase.ParseResultType.NO_NEW_DATA) {

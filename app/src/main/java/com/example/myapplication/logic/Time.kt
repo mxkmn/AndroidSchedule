@@ -1,14 +1,24 @@
 package com.example.myapplication.logic
 
+import com.example.myapplication.datamanager.Lesson
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.temporal.WeekFields
 import java.util.*
 
 class Time {
   companion object {
     private val delayHours: Int = 2
+
+    fun getLessonStartDateTime(lesson: Lesson): LocalDateTime {
+      val weekOffset = lesson.internalWeek - getCurrentInternalWeek()
+      val day = LocalDate.now().plusDays((weekOffset*7 - (getActualWeekDay()-1) + lesson.dayOfWeek).toLong())
+      val time = LocalTime.of(lesson.time / 60, lesson.time % 60)
+
+      return LocalDateTime.of( day, time )
+    }
     private fun getActualWeekNum(): Int {
       return LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfYear())
     }
