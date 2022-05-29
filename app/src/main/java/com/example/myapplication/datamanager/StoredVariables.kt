@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 
 class StoredVariables(private val context: Context) {
   companion object {
@@ -13,6 +14,26 @@ class StoredVariables(private val context: Context) {
   suspend fun setCurrentWeek(internalWeek: Int) = setInt("currentWeek", internalWeek)
   suspend fun getCurrentWeek() = getInt("currentWeek")
 //  val flowCurrentWeek: Flow<Int?> = flowInt("currentWeek")
+
+  suspend fun setSubgroup(subgroup: Int) = setInt("subgroup", subgroup)
+  suspend fun getSubgroup() = getInt("subgroup")
+  val fastSubgroup: Int get() {
+    val subgroup: Int
+    runBlocking {
+      subgroup = getInt("subgroup") ?: 0
+    }
+    return subgroup
+  }
+
+  suspend fun setLink(uri: String) = setString("link", uri)
+  suspend fun getLink() = getString("link")
+  val fastLink: String get() {
+    val link: String
+    runBlocking {
+      link = getString("link") ?: ""
+    }
+    return link
+  }
 
   suspend fun setLastUpdate(internalWeek: String) = setString("lastUpdate", internalWeek)
   suspend fun getLastUpdate() = getString("lastUpdate")

@@ -6,26 +6,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemLessonBinding
 import com.example.myapplication.datamanager.Lesson
 
-class LessonAdapter(var lessons: List<Lesson>): RecyclerView.Adapter<LessonAdapter.TodoViewHolder>() {
-  inner class TodoViewHolder(val binding: ItemLessonBinding) : RecyclerView.ViewHolder(binding.root)
+class LessonAdapter(private val lessons: List<Lesson>) : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
+  inner class LessonViewHolder(val binding: ItemLessonBinding) : RecyclerView.ViewHolder(binding.root)
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonViewHolder {
     val layoutInflater = LayoutInflater.from(parent.context)
     val binding = ItemLessonBinding.inflate(layoutInflater, parent, false)
 
-    return TodoViewHolder(binding)
+    return LessonViewHolder(binding)
   }
 
   override fun getItemCount(): Int {
     return lessons.size
   }
 
-  override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
     val lesson = lessons[position]
     holder.itemView.apply {
       var place = ""
-      place += getAddString(place, lesson.strDayOfWeek)
-      place += getAddString(place, lesson.strTime, 2)
+      place += getAddString(place, lesson.strTime)
       place += getAddString(place, lesson.classroomName, 1)
       if (lesson.subgroup != 0) {
         place += getAddString(place, "подгруппа ${lesson.subgroup}", 1)
@@ -39,11 +38,10 @@ class LessonAdapter(var lessons: List<Lesson>): RecyclerView.Adapter<LessonAdapt
       meta += getAddString(meta, lesson.teacherName, 2)
       holder.binding.meta.text = meta
 
-//      val internalWeek: Int, // внутренний номер недели
-//      val dayOfWeek: Int, // день недели, начало с 0
 //      val classroomLink: String = "", // ссылка на аудиторию
 //      val teacherLink: String = "", // ссылка на препода
 
+      // добавить что-то без обновления вообще всего:
 //      todoList.add(Todo(binding.etLesson.text.toString(), false))
 //      adapter.notifyItemChanged(todoList.size - 1)
     }

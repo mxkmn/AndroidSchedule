@@ -39,26 +39,26 @@ data class Lesson(
 
 @Dao
 interface LessonDao {
-//  @Insert
-//  fun insert(lesson: Lesson)
+  @Insert
+  fun insert(lesson: Lesson)
   @Insert
   fun insert(lessons: List<Lesson>)
 
-//  @Update
-//  fun update(lesson: Lesson)
-//  @Update
-//  fun update(lessons: List<Lesson>)
+  @Update
+  fun update(lesson: Lesson)
+  @Update
+  fun update(lessons: List<Lesson>)
 
-//  @Delete
-//  fun delete(lesson: Lesson)
+  @Delete
+  fun delete(lesson: Lesson)
   @Delete
   fun delete(lessons: List<Lesson>)
 
   @Query("SELECT * FROM lesson_table ORDER BY internalWeek, dayOfWeek, time, subgroup")
   fun getAllSorted(): List<Lesson>
 
-//  @Query("SELECT * FROM lesson_table")
-//  fun getAll(): List<Lesson>
+  @Query("SELECT * FROM lesson_table")
+  fun getAll(): List<Lesson>
 
   @Query("SELECT * FROM lesson_table WHERE internalWeek < :internalCurrentWeek")
   fun getOutdatedLessons(internalCurrentWeek: Int): List<Lesson>
@@ -68,4 +68,7 @@ interface LessonDao {
 
   @Query("SELECT * FROM lesson_table WHERE internalWeek = :internalWeek")
   fun getByInternalWeek(internalWeek: Int): List<Lesson>
+
+  @Query("SELECT * FROM lesson_table WHERE internalWeek = :internalWeek ORDER BY dayOfWeek, time, subgroup")
+  fun getByInternalWeekSorted(internalWeek: Int): List<Lesson>
 }

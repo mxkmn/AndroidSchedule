@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.room.*
 import com.example.myapplication.logic.Parser
 import com.example.myapplication.logic.Time
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 
 @Database(entities = [Lesson::class], version = 1)
@@ -16,19 +18,24 @@ abstract class StoredDatabase: RoomDatabase() {
   }
   class ParseResult(val week: Int, val resultType: ParseResultType)
 
-  fun insertWeekFromWeb(internalWeek: Int): ParseResult {
-    val currentInternalWeek: Int = Time.getCurrentInternalWeek();
+  private val _parseResultEmitter = MutableSharedFlow<ParseResult>()
+  val flowParseResult = _parseResultEmitter.asSharedFlow()
+
+  fun insertWeekFromWeb(internalWeek: Int, link: String) {
+    val currentInternalWeek: Int = Time.getCurrentInternalWeek()
     val plusDays = ((internalWeek-currentInternalWeek)*7).toLong()
     val date = LocalDate.now().plusDays(plusDays)
 
-    val schedule = Parser.getScheduleHtmlData("462173&date=${date.year}-${date.month.value}-${date.dayOfMonth}", internalWeek)
+    val schedule = Parser.getScheduleHtmlData("https://$link&date=${date.year}-${date.month.value}-${date.dayOfMonth}", internalWeek)
 
-    if (schedule == null)
-      return ParseResult(internalWeek, ParseResultType.ERROR)
-    else if (schedule.data.size == 0)
-      return ParseResult(internalWeek, ParseResultType.NO_DATA)
-
-    return ParseResult(internalWeek, updateWeekData(Parser.getLessons(schedule), internalWeek))
+    runBlocking {
+      if (schedule == null)
+        _parseResultEmitter.emit(ParseResult(internalWeek, ParseResultType.ERROR))
+      else if (schedule.data.size == 0)
+        _parseResultEmitter.emit(ParseResult(internalWeek, ParseResultType.NO_DATA))
+      else
+        _parseResultEmitter.emit(ParseResult(internalWeek, updateWeekData(Parser.getLessons(schedule), internalWeek)))
+    }
   }
 
   private fun updateWeekData(data: ArrayList<Lesson>, internalWeek: Int): ParseResultType {

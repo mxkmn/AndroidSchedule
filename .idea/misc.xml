@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Coding/AndroidSchedule/app/src/main/res/layout/activity_main.xml" value="0.6666666666666666" />
+        <entry key="..\:/Coding/AndroidSchedule/app/src/main/res/layout/item_lesson.xml" value="0.5125" />
+        <entry key="..\:/Coding/AndroidSchedule/app/src/main/res/layout/item_week.xml" value="0.5125" />
+        <entry key="..\:/Coding/AndroidSchedule/app/src/main/res/layout/settings_dialog.xml" value="0.6666666666666666" />
         <entry key="..\:/Coding/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/activity_main.xml" value="0.27845254161043637" />
         <entry key="..\:/Coding/Backups/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2205" />
         <entry key="..\:/Coding/Backups/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.2445" />
@@ -12,6 +16,7 @@
         <entry key="..\:/Coding/Backups/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/item_todo.xml" value="0.3223958333333333" />
         <entry key="..\:/Coding/Backups/AndroidStudioProjects/MyApplication2/app/src/main/res/menu/main_action_bar.xml" value="0.32135416666666666" />
         <entry key="..\:/Coding/Backups/AndroidStudioProjects/MyApplication2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2205" />
+        <entry key="..\:/Users/mxkmn/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.5125" />
       </map>
     </option>
   </component>

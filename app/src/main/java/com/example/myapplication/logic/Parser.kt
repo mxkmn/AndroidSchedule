@@ -19,9 +19,9 @@ class Parser {
       return notCool.trim().replaceFirstChar{ it.uppercase() }
     }
 
-    fun getScheduleHtmlData(groupWithData: String, internalWeek: Int): ScheduleHtmlData? {
+    fun getScheduleHtmlData(uri: String, internalWeek: Int): ScheduleHtmlData? {
       try {
-        val doc = Jsoup.connect("https://www.istu.edu/schedule/?group=$groupWithData").get()
+        val doc = Jsoup.connect("$uri").get()
         val oddScheduleContent = doc.getElementsByAttributeValue("class", "full-odd-week")
         val evenScheduleContent = doc.getElementsByAttributeValue("class", "full-even-week")
         if (oddScheduleContent.size != 0) {
@@ -31,7 +31,7 @@ class Parser {
           return ScheduleHtmlData(evenScheduleContent, ScheduleTypes.EVEN, internalWeek)
         }
         else {
-          Log.w("mxkmnGetScheduleHtmlData", "No schedule info (https://www.istu.edu/schedule/?group=$groupWithData)")
+          Log.w("mxkmnGetScheduleHtmlData", "No schedule info ($uri)")
           return ScheduleHtmlData(oddScheduleContent, ScheduleTypes.ODD, internalWeek)
         }
       } catch (e: Exception) {

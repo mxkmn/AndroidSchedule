@@ -17,7 +17,10 @@ class AutoUpdater : BroadcastReceiver() {
 
       val alarmUp = PendingIntent.getBroadcast(
         context, 0, intent,
-        PendingIntent.FLAG_NO_CREATE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+          PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+        else
+          PendingIntent.FLAG_NO_CREATE
       ) != null
 
       if (alarmUp) {
@@ -44,10 +47,10 @@ class AutoUpdater : BroadcastReceiver() {
   }
 
   override fun onReceive(context: Context, intent: Intent) {
-    Log.i("mxkmnAutoUpdater", "onReceive called: let's update!")
-    Toast.makeText(context, "onReceive called", Toast.LENGTH_SHORT).show()
+//    Log.i("mxkmnAutoUpdater", "onReceive called: let's update!")
+//    Toast.makeText(context, "onReceive called", Toast.LENGTH_SHORT).show()
 
     val storage = DataManager(context) // получение обновы
-    storage.updateIfNeeded()
+    storage.updateAndDeleteOutdatedWeek()
   }
 }

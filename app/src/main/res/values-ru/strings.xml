@@ -6,4 +6,12 @@
     <string name="settings">Настройки</string>
     <string name="getting_data">Получение расписания…</string>
     <string name="no_data">Расписания на эту неделю нет\nОтдохнёте или займётесь Д/З?</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отменить</string>
+    <string name="schedule_link">Ссылка на группу</string>
+    <string name="subgroup">Выбор подгруппы</string>
+    <string name="error">Ошибка при получении данных. Проверьте подключение к интернету и ссылку на расписание в настройках</string>
+    <string name="subgroups_all">Показать пары для всех подгрупп</string>
+    <string name="subgroups_indexed">Подгруппа %1$d и общие пары</string>
+    <string name="no_data_for_subgroup">На этой неделе нет занятий для выбранной подгруппы</string>
 </resources>
