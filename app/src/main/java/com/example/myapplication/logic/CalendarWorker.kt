@@ -24,7 +24,7 @@ import java.util.*
 import kotlin.concurrent.thread
 
 
-class CalendarWorker(private val contentResolver: ContentResolver, private val activity: MainActivity) {
+class CalendarWorker(private val contentResolver: ContentResolver, private val activity: MainActivity, private val defaultLink: String) {
   private val _accountName = "Расписание"
   private val _placeName = "Иркутский политех"
 
@@ -33,7 +33,7 @@ class CalendarWorker(private val contentResolver: ContentResolver, private val a
   var isAccessible = true
 
   private fun getSubgroupStr(subgroup: Int): String = if (subgroup == 0) "" else " (подгруппа $subgroup)"
-  private fun getLinkStr(link: String, type: String): String = if (link.isBlank()) "" else "\nСсылка на $type: $link"
+  private fun getLinkStr(link: String, type: String): String = if (link.isBlank()) "" else "\nСсылка на $type: $defaultLink$link"
 
   private fun concatStrings(oldString: String, newString: String, separatorType: Int = 0): String {
     return when {

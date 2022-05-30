@@ -78,21 +78,14 @@ class MainActivity : AppCompatActivity() {
   }
   private fun initStorage() { // инициализация хранилища
     storage = DataManager(this)
-    calendar = CalendarWorker(contentResolver, this)
-
-    lifecycleScope.launch {
-      calendar.flowAccessibleNow.collect {
-        if (dbUpdated) {
-          updateCalendar()
-        }
-      }
-    }
 
     lifecycleScope.launch {
       storage.isDbInitialized.collect { success -> // connection listener
         if (success != null) {
           if (success) { // успешное подключение
             Log.i("mxkmnInitStorage", "DB connected")
+            initCalendar()
+
             displayAll()
 
             storage.db!!.flowParseResult.collect { parseResult ->
@@ -112,6 +105,20 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "При подключении БД возникла критическая ошибка!", Toast.LENGTH_LONG).show()
             Log.e("mxkmnInitStorage", "DB not connected")
           }
+        }
+      }
+    }
+  }
+
+  private fun initCalendar() {
+    val splittedLink = storage.vars.fastLink.split("?")
+    val correctLink = splittedLink[0]
+    calendar = CalendarWorker(contentResolver, this, correctLink)
+
+    lifecycleScope.launch {
+      calendar.flowAccessibleNow.collect {
+        if (dbUpdated) {
+          updateCalendar()
         }
       }
     }

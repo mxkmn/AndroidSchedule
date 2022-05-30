@@ -8,7 +8,10 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.datamanager.DataManager
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class AutoUpdater : BroadcastReceiver() {
   companion object {
